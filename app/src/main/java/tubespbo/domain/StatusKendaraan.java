@@ -1,5 +1,6 @@
 package tubespbo.domain;
 
-public class StatusKendaraan {
-    
+public enum StatusKendaraan {
+    Tersedia,
+    Sedang_Disewa
 }

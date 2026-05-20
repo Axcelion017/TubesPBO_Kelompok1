@@ -1,5 +1,7 @@
 package tubespbo.domain;
 
-public class Membership {
-    
+public enum Membership {
+    REGULER,
+    SILVER,
+    GOLD
 }
