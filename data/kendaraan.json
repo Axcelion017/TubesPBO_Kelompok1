@@ -1,0 +1,10 @@
+[
+  {
+    "jumlahPintu": 4,
+    "platNomor": "B 1298 NG",
+    "hargaSewaPerHari": 150000,
+    "merk": "Toyota Kijang",
+    "status": "TERSEDIA",
+    "jenis": "Mobil"
+  }
+]
