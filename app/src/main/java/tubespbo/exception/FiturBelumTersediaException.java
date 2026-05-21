@@ -10,7 +10,7 @@ public class FiturBelumTersediaException extends Exception {
 
     static {
         // Daftarkan semua menu fungsional di sini agar masuk status maintenance/belum tersedia
-        daftarMaintenance.add("Tambah Kendaraan Baru");
+        /*daftarMaintenance.add("Tambah Kendaraan Baru");
         daftarMaintenance.add("Lihat Semua Kendaraan");
         daftarMaintenance.add("Hapus Kendaraan");
         daftarMaintenance.add("Daftar Pelanggan Baru");
@@ -18,7 +18,7 @@ public class FiturBelumTersediaException extends Exception {
         daftarMaintenance.add("Cek Kendaraan Tersedia");
         daftarMaintenance.add("Proses Peminjaman");
         daftarMaintenance.add("Proses Pengembalian");
-        daftarMaintenance.add("Lihat Laporan Pendapatan & Riwayat");
+        daftarMaintenance.add("Lihat Laporan Pendapatan & Riwayat");*/
     }
 
     public FiturBelumTersediaException(String namaFitur) {

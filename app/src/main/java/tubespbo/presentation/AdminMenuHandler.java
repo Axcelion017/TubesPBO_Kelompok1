@@ -69,7 +69,7 @@ public class AdminMenuHandler {
         System.out.println("\n========================================");
         System.out.println("       MENU TAMBAH KENDARAAN BARU       ");
         System.out.println("========================================");
-        System.out.println("Pilih Jenis Kendaraan: 1. Mobil | 2. Motor | 0. Batal");
+        System.out.println("Pilih Jenis Kendaraan: \n1. Mobil \n2. Motor \n0. Batal");
         System.out.print("Pilihan Anda > ");
         String jenis = scanner.nextLine();
         if (jenis.equals("0")) return;
