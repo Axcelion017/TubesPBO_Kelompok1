@@ -1,6 +1,6 @@
 package tubespbo.domain;
 
 public enum StatusKendaraan {
-    Tersedia,
-    Sedang_Disewa
+    TERSEDIA,
+    SEDANG_DISEWA
 }

@@ -6,40 +6,66 @@ import tubespbo.service.AuthService;
 
 import java.util.Scanner;
 
-public class Main{
+public class Main {
     public static void main(String[] args) {
-        // 1. Inisialisasi Repository dan Service
         UserRepository userRepo = new UserRepository();
         AuthService authService = new AuthService(userRepo);
-        
         Scanner scanner = new Scanner(System.in);
+
+        boolean aplikasiBerjalan = true;
+
+        while (aplikasiBerjalan) {
+            User userLogin = tampilkanLogin(scanner, authService);
+
+            if (userLogin != null) {
+                MenuHandler menuHandler = new MenuHandler(scanner);
+                menuHandler.tampilkanDashboard(userLogin);
+            } else {
+                aplikasiBerjalan = false;
+            }
+
+            if (authService.isTerkunci()) {
+                aplikasiBerjalan = false;
+            }
+        }
+
+        System.out.println("\nTerima kasih telah menggunakan aplikasi.");
+        scanner.close();
+    }
+
+    private static User tampilkanLogin(Scanner scanner, AuthService authService) {
         User userLogin = null;
 
-        System.out.println("=== SISTEM TESTING AUTHENTICATION ===");
-        System.out.println("Database default otomatis terbuat di data/user.json");
-        System.out.println("Akun default: admin/admin123, staff/staff123, owner/owner123");
-        System.out.println("=====================================");
+        System.out.println("========================================");
+        System.out.println("     SELAMAT DATANG DI KELOMPOK 1");
+        System.out.println("========================================");
+        System.out.println("Akun default:");
+        System.out.println("- admin/admin123");
+        System.out.println("- staff/staff123");
+        System.out.println("- owner/owner123");
 
-        // 2. Loop login selama belum sukses dan sistem belum dikunci
         while (userLogin == null && !authService.isTerkunci()) {
             System.out.print("\nMasukkan Username: ");
             String username = scanner.nextLine();
-            
+
             System.out.print("Masukkan Password: ");
             String password = scanner.nextLine();
 
-            // Panggil service auth yang kamu buat tadi
             userLogin = authService.login(username, password);
         }
 
-        // 3. Cek hasil akhir setelah keluar dari loop
         if (userLogin != null) {
-            System.out.println("\n[SUKSES] Selamat Datang, " + userLogin.getUsername() + "!");
-            System.out.println("Hak Akses Anda (Role): " + userLogin.getRole());
+            System.out.println("\n[SUKSES] Login berhasil sebagai " + userLogin.getRole() + ".");
+            tekanEnter(scanner);
         } else {
             System.out.println("\n[KUNCI] Aplikasi dihentikan karena terlalu banyak kesalahan.");
         }
 
-        scanner.close();
+        return userLogin;
+    }
+
+    private static void tekanEnter(Scanner scanner) {
+        System.out.print("Tekan ENTER untuk masuk ke dashboard...");
+        scanner.nextLine();
     }
 }
