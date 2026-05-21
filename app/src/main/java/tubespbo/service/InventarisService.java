@@ -95,7 +95,7 @@ public class InventarisService {
                     formatRupiah(kendaraan.getHargaSewaPerHari()),
                     kendaraan.getMerk(),
                     kendaraan.getInfoTambahan(),
-                    kendaraan.getStatus());
+                    formatStatus(kendaraan.getStatus()));
         }
 
         System.out.println("------------------------------------------------------------------------------------");
@@ -126,5 +126,12 @@ public class InventarisService {
     private String formatRupiah(int nominal) {
         NumberFormat format = NumberFormat.getNumberInstance(Locale.forLanguageTag("id-ID"));
         return "Rp " + format.format(nominal);
+    }
+
+    private String formatStatus(StatusKendaraan status) {
+        if (status == null) {
+            return StatusKendaraan.TERSEDIA.name();
+        }
+        return status.name().replace("_", " ");
     }
 }

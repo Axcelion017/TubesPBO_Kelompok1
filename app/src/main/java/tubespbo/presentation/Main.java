@@ -1,8 +1,10 @@
 package tubespbo.presentation;
 
 import tubespbo.domain.User;
+import tubespbo.repository.KendaraanRepository;
 import tubespbo.repository.UserRepository;
 import tubespbo.service.AuthService;
+import tubespbo.service.InventarisService;
 
 import java.util.Scanner;
 
@@ -10,6 +12,8 @@ public class Main {
     public static void main(String[] args) {
         UserRepository userRepo = new UserRepository();
         AuthService authService = new AuthService(userRepo);
+        KendaraanRepository kendaraanRepo = new KendaraanRepository();
+        InventarisService inventarisService = new InventarisService(kendaraanRepo);
         Scanner scanner = new Scanner(System.in);
 
         boolean aplikasiBerjalan = true;
@@ -18,7 +22,7 @@ public class Main {
             User userLogin = tampilkanLogin(scanner, authService);
 
             if (userLogin != null) {
-                MenuHandler menuHandler = new MenuHandler(scanner);
+                MenuHandler menuHandler = new MenuHandler(scanner, inventarisService);
                 menuHandler.tampilkanDashboard(userLogin);
             } else {
                 aplikasiBerjalan = false;
