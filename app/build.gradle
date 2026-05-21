@@ -37,7 +37,7 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = 'tubespbo.App'
+    mainClass = 'tubespbo.presentation.Main'
 }
 
 tasks.named('test') {
@@ -50,3 +50,8 @@ tasks.register("copyTask", Copy){
     into("target")
     include("*.war")
 }//Setup dari website gradl tutorial
+
+// Tambahkan ini di bagian paling bawah file app/build.gradle
+tasks.named('run') {
+    standardInput = System.in
+}
