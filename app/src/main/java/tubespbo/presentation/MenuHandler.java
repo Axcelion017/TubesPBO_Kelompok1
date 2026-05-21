@@ -2,16 +2,19 @@ package tubespbo.presentation;
 
 import tubespbo.domain.Role;
 import tubespbo.domain.User;
+import tubespbo.exception.FiturBelumTersediaException; // Import exception buatanmu
 
 import java.util.Scanner;
 
 public class MenuHandler {
     private final Scanner scanner;
 
+    // Constructor asli bawaan temanmu dipertahankan agar tidak break Main.java
     public MenuHandler(Scanner scanner) {
         this.scanner = scanner;
     }
 
+    // Method utama bawaan temanmu dipertahankan
     public void tampilkanDashboard(User user) {
         if (user.getRole() == Role.ADMIN) {
             tampilkanDashboardAdmin(user);
@@ -21,6 +24,34 @@ public class MenuHandler {
             tampilkanDashboardOwner(user);
         } else {
             System.out.println("[ERROR] Role tidak dikenali.");
+        }
+    }
+
+    /**
+     * FUNGSI GATEWAY PUSAT (Sistem Validasi Gateway)
+     * Memeriksa ketersediaan modul menggunakan try-catch sebelum dieksekusi
+     */
+    private void tampilkanFitur(String namaFitur) {
+        try {
+            // Validasi terpusat ketuk gerbang Exception
+            FiturBelumTersediaException.cekStatusFitur(namaFitur);
+            
+            // JIKA LOLOS (Berarti fitur sudah siap / tidak masuk daftar maintenance):
+            System.out.println("\n[GATEWAY] Akses Diberikan. Membuka " + namaFitur + "...");
+            System.out.println("-> Berhasil mengeksekusi modul '" + namaFitur + "'.");
+            tekanEnter();
+
+            // NANTI KEDEPANNYA: Jika fitur sudah dikoding asli, hubungkan di sini:
+            /*
+            if (namaFitur.equals("Tambah Kendaraan Baru")) {
+                inventarisService.tambahKendaraan();
+            }
+            */
+
+        } catch (FiturBelumTersediaException e) {
+            // JIKA TERKENA EXCEPTION (Fitur belum siap atau sedang maintenance)
+            System.out.println("\n[⚠️ SYSTEM ALERT] " + e.getMessage());
+            tekanEnter();
         }
     }
 
@@ -43,13 +74,13 @@ public class MenuHandler {
 
             switch (pilihan) {
                 case "1":
-                    tampilkanFiturBelumTersedia("Tambah Kendaraan Baru");
+                    tampilkanFitur("Tambah Kendaraan Baru"); // Menggunakan Gateway Pusat
                     break;
                 case "2":
-                    tampilkanFiturBelumTersedia("Lihat Semua Kendaraan");
+                    tampilkanFitur("Lihat Semua Kendaraan"); // Menggunakan Gateway Pusat
                     break;
                 case "3":
-                    tampilkanFiturBelumTersedia("Hapus Kendaraan");
+                    tampilkanFitur("Hapus Kendaraan");       // Menggunakan Gateway Pusat
                     break;
                 case "0":
                     berjalan = false;
@@ -83,19 +114,19 @@ public class MenuHandler {
 
             switch (pilihan) {
                 case "1":
-                    tampilkanFiturBelumTersedia("Daftar Pelanggan Baru");
+                    tampilkanFitur("Daftar Pelanggan Baru"); // Menggunakan Gateway Pusat
                     break;
                 case "2":
-                    tampilkanFiturBelumTersedia("Cari Data Pelanggan");
+                    tampilkanFitur("Cari Data Pelanggan");   // Menggunakan Gateway Pusat
                     break;
                 case "3":
-                    tampilkanFiturBelumTersedia("Cek Kendaraan Tersedia");
+                    tampilkanFitur("Cek Kendaraan Tersedia"); // Menggunakan Gateway Pusat
                     break;
                 case "4":
-                    tampilkanFiturBelumTersedia("Proses Peminjaman");
+                    tampilkanFitur("Proses Peminjaman");     // Menggunakan Gateway Pusat
                     break;
                 case "5":
-                    tampilkanFiturBelumTersedia("Proses Pengembalian");
+                    tampilkanFitur("Proses Pengembalian");   // Menggunakan Gateway Pusat
                     break;
                 case "0":
                     berjalan = false;
@@ -125,7 +156,7 @@ public class MenuHandler {
 
             switch (pilihan) {
                 case "1":
-                    tampilkanFiturBelumTersedia("Lihat Laporan Pendapatan & Riwayat");
+                    tampilkanFitur("Lihat Laporan Pendapatan & Riwayat"); // Menggunakan Gateway Pusat
                     break;
                 case "0":
                     berjalan = false;
@@ -138,12 +169,7 @@ public class MenuHandler {
         }
     }
 
-    private void tampilkanFiturBelumTersedia(String namaFitur) {
-        System.out.println("\n[FITUR BELUM TERSEDIA] " + namaFitur);
-        System.out.println("Fitur ini akan dihubungkan setelah modul terkait selesai.");
-        tekanEnter();
-    }
-
+    // Method pembantu asli temanmu dipertahankan/disesuaikan teksnya
     private void tekanEnter() {
         System.out.print("Tekan ENTER untuk kembali...");
         scanner.nextLine();
