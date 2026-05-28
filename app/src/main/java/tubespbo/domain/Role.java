@@ -1,7 +1,7 @@
 package tubespbo.domain;
 
 public enum Role {
-    ADMIN,
-    STAFF,
-    OWNER
+    admin,
+    staff,
+    owner
 }
