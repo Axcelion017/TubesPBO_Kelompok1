@@ -5,14 +5,14 @@ public class Pelanggan {
     private String namaLengkap;
     private String nomorTelepon;
     private int jumlahTransaksi;
-    private Membership Membership;
+    private Membership membership;
 
     public Pelanggan(String nomorKtp, String namaLengkap, String nomorTelepon){
         this.nomorKtp = nomorKtp;
         this.namaLengkap = namaLengkap;
         this.nomorTelepon = nomorTelepon;
         this.jumlahTransaksi = 0;
-        this.Membership = Membership.REGULER; // default, akan naik jika Pelangagan mendapatk poin setiap ia menyewa
+        this.membership = Membership.REGULER; // default, akan naik jika Pelangagan mendapatk poin setiap ia menyewa
     }
 
 
@@ -24,11 +24,11 @@ public class Pelanggan {
 
     public void updateMembershipStatus(){
         if (jumlahTransaksi >= 10) {
-            Membership = Membership.GOLD;
+            this.membership = Membership.GOLD;
         } else if (jumlahTransaksi >= 5 && jumlahTransaksi < 10) {
-            Membership = Membership.SILVER;
+            this.membership = Membership.SILVER;
         } else {
-            Membership = Membership.REGULER;
+            this.membership = Membership.REGULER;
         }
 
     }
@@ -46,11 +46,11 @@ public class Pelanggan {
     }
 
     public Membership getMembership() {
-        return Membership;
+        return membership;
     }
 
     public void setLevelMembership(Membership membership) {
-        Membership = membership;
+        this.membership = membership;
     }
 
 
