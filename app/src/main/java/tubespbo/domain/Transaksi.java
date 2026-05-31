@@ -31,8 +31,22 @@ public class Transaksi {
         this.kendaraan = kendaraan;
         this.durasiSewaHari = durasiSewaHari;
         this.hariKeterlambatan = 0;
-        this.totalBayar = kendaraan.getHargaSewaPerHari() * durasiSewaHari;
+        // Total awal transaksi langsung memakai diskon membership pelanggan.
+        this.totalBayar = hitungTotalBayarSetelahDiskon();
         this.selesai = false;
+    }
+
+    // Dipisah agar service/UI bisa menampilkan rincian biaya dasar, diskon, dan total akhir.
+    public double hitungBiayaDasar() {
+        return kendaraan.getHargaSewaPerHari() * durasiSewaHari;
+    }
+
+    public double hitungDiskonMembership() {
+        return pelanggan.hitungDiskon(hitungBiayaDasar());
+    }
+
+    public double hitungTotalBayarSetelahDiskon() {
+        return pelanggan.hitungTotalSetelahDiskon(hitungBiayaDasar());
     }
 
     public void setHariKeterlambatan(int hari) {
