@@ -6,7 +6,20 @@ public class User {
     private Role role;
 
     public User(String username, String password, Role role) {
-        this.username = username;
+        // User harus punya role valid karena role dipakai untuk menentukan dashboard.
+        if (username == null || username.trim().isEmpty()) {
+            throw new IllegalArgumentException("Username wajib diisi.");
+        }
+
+        if (password == null || password.trim().isEmpty()) {
+            throw new IllegalArgumentException("Password wajib diisi.");
+        }
+
+        if (role == null) {
+            throw new IllegalArgumentException("Role wajib diisi.");
+        }
+
+        this.username = username.trim();
         this.password = password;
         this.role = role;
     }
