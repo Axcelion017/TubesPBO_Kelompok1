@@ -32,6 +32,7 @@ public abstract class Kendaraan {
 
     public String getMerek() {
         return merek;
+        
     }
 
     public int getHargaSewaPerHari() {
