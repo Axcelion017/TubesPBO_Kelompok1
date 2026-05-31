@@ -81,10 +81,6 @@ public class Pelanggan {
         return membership;
     }
 
-    public Membership getMembership() {
-        return membership;
-    }
-
     // Diskon dihitung dari level membership tanpa mengubah enum Membership.
     public double getPersentaseDiskon() {
         if (membership == Membership.GOLD) {
