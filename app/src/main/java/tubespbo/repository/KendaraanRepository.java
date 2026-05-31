@@ -164,7 +164,7 @@ public class KendaraanRepository {
 
         // Parameter untuk bagian USING dan UPDATE
         statement.setString(1, platNomor);
-        statement.setString(2, kendaraan.getMerk());
+        statement.setString(2, kendaraan.getMerek());
         statement.setInt(3, kendaraan.getHargaSewaPerHari());
         statement.setString(4, kendaraan.getStatus().name());
         statement.setString(5, jenis);
@@ -173,7 +173,7 @@ public class KendaraanRepository {
 
         // Parameter untuk bagian INSERT
         statement.setString(8, platNomor);
-        statement.setString(9, kendaraan.getMerk());
+        statement.setString(9, kendaraan.getMerek());
         statement.setInt(10, kendaraan.getHargaSewaPerHari());
         statement.setString(11, kendaraan.getStatus().name());
         statement.setString(12, jenis);
