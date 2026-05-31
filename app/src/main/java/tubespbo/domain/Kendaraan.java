@@ -34,10 +34,6 @@ public abstract class Kendaraan {
         return merek;
     }
 
-    public String getMerk() {
-        return merek;
-    }
-
     public int getHargaSewaPerHari() {
         return hargaSewaPerHari;
     }
