@@ -34,7 +34,6 @@ public abstract class Kendaraan {
         return merek;
     }
 
-    // Alias untuk kode lama yang masih memakai istilah "merk".
     public String getMerk() {
         return merek;
     }
