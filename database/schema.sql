@@ -35,7 +35,7 @@ CREATE TABLE kendaraan (
 CREATE TABLE pelanggan (
     nomor_ktp VARCHAR2(30) PRIMARY KEY,
     nama_lengkap VARCHAR2(100) NOT NULL,
-    nomor_telepon VARCHAR2(30),
+    nomor_telepon VARCHAR2(30) NOT NULL,
     jumlah_transaksi NUMBER DEFAULT 0,
     level_membership VARCHAR2(20) DEFAULT 'REGULER'
 );
