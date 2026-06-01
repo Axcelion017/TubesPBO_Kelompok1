@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+// Repository ini khusus membaca akun login dari tabel users.
+// Validasi berhasil/gagal login tetap menjadi tanggung jawab AuthService.
 public class UserRepository {
     public UserRepository() {
     }
@@ -47,6 +49,7 @@ public class UserRepository {
     }
 
     public User cariByUsername(String username) {
+        // Query memakai parameter (?) agar input username tidak digabung langsung ke SQL.
         String sql = "SELECT username, password, role FROM users WHERE username = ?";
 
         try (
@@ -56,7 +59,8 @@ public class UserRepository {
                 // Menyiapkan query dengan parameter username
                 PreparedStatement statement = connection.prepareStatement(sql)
         ) {
-            statement.setString(1, username);
+            // Username dirapikan dulu agar input seperti " admin " tetap dicari sebagai "admin".
+            statement.setString(1, normalisasiTeks(username));
 
             try (
                     // Menjalankan query setelah parameter diisi
@@ -74,6 +78,11 @@ public class UserRepository {
             System.out.println("[ERROR] Gagal mencari user dari database: " + e.getMessage());
         }
 
+        // Null menjadi tanda bahwa username tidak ditemukan; AuthService wajib mengeceknya.
         return null;
+    }
+
+    private String normalisasiTeks(String value) {
+        return value == null ? "" : value.trim();
     }
 }

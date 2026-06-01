@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+// Repository ini menjadi penghubung antara object Kendaraan/Mobil/Motor dan tabel kendaraan.
+// Service cukup memanggil method repository; detail SQL disimpan di class ini.
 public class KendaraanRepository {
     public KendaraanRepository() {
     }
@@ -47,6 +49,8 @@ public class KendaraanRepository {
     }
 
     public void simpanSemua(List<Kendaraan> daftarKendaraan) {
+        // MERGE membuat satu query bisa menangani dua kondisi:
+        // plat_nomor sudah ada -> UPDATE, plat_nomor belum ada -> INSERT.
         String sql = "MERGE INTO kendaraan k "
                 + "USING (SELECT ? AS plat_nomor FROM dual) input "
                 + "ON (k.plat_nomor = input.plat_nomor) "
@@ -127,6 +131,7 @@ public class KendaraanRepository {
     }
 
     private Kendaraan mapResultSetToKendaraan(ResultSet resultSet) throws SQLException {
+        // Method ini menerjemahkan satu baris tabel kendaraan menjadi object turunan yang tepat.
         String platNomor = resultSet.getString("plat_nomor");
         String merek = resultSet.getString("merek");
         int hargaSewaPerHari = resultSet.getInt("harga_sewa_per_hari");
@@ -136,23 +141,28 @@ public class KendaraanRepository {
         Kendaraan kendaraan;
 
         if ("Mobil".equalsIgnoreCase(jenis)) {
+            // Kolom jumlah_pintu hanya relevan untuk Mobil.
             int jumlahPintu = resultSet.getInt("jumlah_pintu");
             kendaraan = new Mobil(platNomor, merek, hargaSewaPerHari, jumlahPintu);
         } else if ("Motor".equalsIgnoreCase(jenis)) {
+            // Kolom jenis_transmisi hanya relevan untuk Motor.
             String jenisTransmisi = resultSet.getString("jenis_transmisi");
             kendaraan = new Motor(platNomor, merek, hargaSewaPerHari, jenisTransmisi);
         } else {
             throw new SQLException("Jenis kendaraan tidak dikenali: " + jenis);
         }
 
+        // Constructor kendaraan memberi status default, lalu status asli dari database dipasang ulang.
         kendaraan.setStatus(status);
         return kendaraan;
     }
 
     private void isiParameterSimpan(PreparedStatement statement, Kendaraan kendaraan) throws SQLException {
+        // Method ini adalah kebalikan dari mapResultSetToKendaraan: object Java -> parameter SQL.
         String platNomor = normalisasiPlat(kendaraan.getPlatNomor());
         String jenis = kendaraan.getJenis();
 
+        // Karena Mobil dan Motor memakai satu tabel, field yang tidak relevan disimpan sebagai NULL.
         Integer jumlahPintu = null;
         String jenisTransmisi = null;
 
@@ -182,6 +192,7 @@ public class KendaraanRepository {
     }
 
     private void setNullableInteger(PreparedStatement statement, int index, Integer value) throws SQLException {
+        // setInt tidak bisa menerima null, jadi angka opsional harus ditangani manual.
         if (value == null) {
             statement.setNull(index, java.sql.Types.INTEGER);
         } else {
@@ -190,6 +201,7 @@ public class KendaraanRepository {
     }
 
     private String normalisasiPlat(String platNomor) {
+        // Plat dinormalisasi agar " b   1234 abc " tersimpan/dicari sebagai "B 1234 ABC".
         if (platNomor == null) {
             return "";
         }

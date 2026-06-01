@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+// Repository ini menangani penyimpanan dan pembacaan object Pelanggan dari tabel pelanggan.
+// Nomor KTP dipakai sebagai identitas unik pelanggan di database.
 public class PelangganRepository {
     public PelangganRepository() {
     }
@@ -42,6 +44,8 @@ public class PelangganRepository {
     }
 
     public void simpanSemua(List<Pelanggan> daftarPelanggan) {
+        // MERGE dipakai supaya data pelanggan bisa diperbarui jika nomor_ktp sudah ada,
+        // atau ditambahkan sebagai data baru jika nomor_ktp belum ada.
         String sql = "MERGE INTO pelanggan p "
                 + "USING (SELECT ? AS nomor_ktp FROM dual) input "
                 + "ON (p.nomor_ktp = input.nomor_ktp) "
@@ -97,6 +101,7 @@ public class PelangganRepository {
     }
 
     private Pelanggan mapResultSetToPelanggan(ResultSet resultSet) throws SQLException {
+        // Constructor dengan jumlahTransaksi dipakai agar membership tidak reset saat data dibaca dari database.
         Pelanggan pelanggan = new Pelanggan(
                 resultSet.getString("nomor_ktp"),
                 resultSet.getString("nama_lengkap"),
@@ -108,6 +113,7 @@ public class PelangganRepository {
     }
 
     private void isiParameterSimpan(PreparedStatement statement, Pelanggan pelanggan) throws SQLException {
+        // Object Pelanggan dipetakan menjadi parameter SQL untuk bagian UPDATE dan INSERT.
         String nomorKtp = normalisasiTeks(pelanggan.getNomorKtp());
 
         // Parameter untuk bagian USING dan UPDATE
@@ -126,6 +132,7 @@ public class PelangganRepository {
     }
 
     private String normalisasiTeks(String value) {
+        // Dipakai untuk primary key seperti nomor KTP agar tidak tersimpan dengan spasi depan/belakang.
         return value == null ? "" : value.trim();
     }
 }

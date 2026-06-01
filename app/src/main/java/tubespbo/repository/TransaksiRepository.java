@@ -13,15 +13,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+// Repository transaksi lebih kompleks karena tabel transaksi menyimpan foreign key,
+// sedangkan object Transaksi membutuhkan object Pelanggan dan Kendaraan lengkap.
 public class TransaksiRepository {
     private final PelangganRepository pelangganRepository;
     private final KendaraanRepository kendaraanRepository;
 
     public TransaksiRepository() {
+        // Constructor default membuat repository relasi sendiri agar class mudah dipakai.
         this(new PelangganRepository(), new KendaraanRepository());
     }
 
     public TransaksiRepository(PelangganRepository pelangganRepository, KendaraanRepository kendaraanRepository) {
+        // Constructor ini memudahkan service/test memakai repository yang sudah dibuat dari luar.
         this.pelangganRepository = pelangganRepository;
         this.kendaraanRepository = kendaraanRepository;
     }
@@ -53,6 +57,7 @@ public class TransaksiRepository {
     }
 
     public void simpanSemua(List<Transaksi> daftarTransaksi) {
+        // MERGE dipakai agar id_transaksi yang sudah ada di-update, sedangkan id baru di-insert.
         String sql = "MERGE INTO transaksi t "
                 + "USING (SELECT ? AS id_transaksi FROM dual) input "
                 + "ON (t.id_transaksi = input.id_transaksi) "
@@ -115,6 +120,7 @@ public class TransaksiRepository {
         Optional<Kendaraan> kendaraan = kendaraanRepository.cariByPlatNomor(resultSet.getString("plat_nomor"));
 
         if (pelanggan.isEmpty() || kendaraan.isEmpty()) {
+            // Jika foreign key menunjuk data yang tidak ada, object Transaksi tidak lengkap.
             return Optional.empty();
         }
 
@@ -128,14 +134,17 @@ public class TransaksiRepository {
         // Data lanjutan dari tabel transaksi diset setelah object Transaksi dibuat
         transaksi.setHariKeterlambatan(resultSet.getInt("hari_keterlambatan"));
         transaksi.setTotalBayar(resultSet.getDouble("total_bayar"));
+        // Oracle menyimpan boolean sebagai angka: 1 berarti selesai, 0 berarti belum selesai.
         transaksi.setSelesai(resultSet.getInt("selesai") == 1);
         return Optional.of(transaksi);
     }
 
     private void isiParameterSimpan(PreparedStatement statement, Transaksi transaksi) throws SQLException {
+        // Object relasi dipecah lagi menjadi foreign key yang disimpan di tabel transaksi.
         String idTransaksi = normalisasiTeks(transaksi.getIdTransaksi());
         String nomorKtp = normalisasiTeks(transaksi.getPelanggan().getNomorKtp());
         String platNomor = normalisasiPlat(transaksi.getKendaraan().getPlatNomor());
+        // Java memakai boolean, sedangkan Oracle menyimpan status selesai sebagai 1/0.
         int selesai = transaksi.isSelesai() ? 1 : 0;
 
         // Parameter untuk bagian USING dan UPDATE
@@ -158,10 +167,12 @@ public class TransaksiRepository {
     }
 
     private String normalisasiTeks(String value) {
+        // Dipakai untuk ID dan foreign key agar pencarian tidak gagal karena spasi.
         return value == null ? "" : value.trim();
     }
 
     private String normalisasiPlat(String platNomor) {
+        // Format plat disamakan dengan KendaraanRepository agar relasi transaksi-kendaraan konsisten.
         return normalisasiTeks(platNomor).replaceAll("\\s+", " ").toUpperCase();
     }
 }
