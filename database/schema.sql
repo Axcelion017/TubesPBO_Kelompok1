@@ -24,7 +24,7 @@ CREATE TABLE users (
 
 CREATE TABLE kendaraan (
     plat_nomor VARCHAR2(20) PRIMARY KEY,
-    merk VARCHAR2(100) NOT NULL,
+    merek VARCHAR2(100) NOT NULL,
     harga_sewa_per_hari NUMBER NOT NULL,
     status VARCHAR2(30) NOT NULL,
     jenis VARCHAR2(20) NOT NULL,

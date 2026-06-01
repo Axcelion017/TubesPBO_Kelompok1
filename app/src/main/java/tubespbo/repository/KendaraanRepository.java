@@ -21,7 +21,7 @@ public class KendaraanRepository {
     public List<Kendaraan> ambilSemua() {
         List<Kendaraan> daftarKendaraan = new ArrayList<>();
 
-        String sql = "SELECT plat_nomor, merk, harga_sewa_per_hari, status, jenis, jumlah_pintu, jenis_transmisi "
+        String sql = "SELECT plat_nomor, merek, harga_sewa_per_hari, status, jenis, jumlah_pintu, jenis_transmisi "
                 + "FROM kendaraan";
 
         try (
@@ -51,14 +51,14 @@ public class KendaraanRepository {
                 + "USING (SELECT ? AS plat_nomor FROM dual) input "
                 + "ON (k.plat_nomor = input.plat_nomor) "
                 + "WHEN MATCHED THEN UPDATE SET "
-                + "k.merk = ?, "
+                + "k.merek = ?, "
                 + "k.harga_sewa_per_hari = ?, "
                 + "k.status = ?, "
                 + "k.jenis = ?, "
                 + "k.jumlah_pintu = ?, "
                 + "k.jenis_transmisi = ? "
                 + "WHEN NOT MATCHED THEN INSERT "
-                + "(plat_nomor, merk, harga_sewa_per_hari, status, jenis, jumlah_pintu, jenis_transmisi) "
+                + "(plat_nomor, merek, harga_sewa_per_hari, status, jenis, jumlah_pintu, jenis_transmisi) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (
@@ -78,7 +78,7 @@ public class KendaraanRepository {
     }
 
     public Optional<Kendaraan> cariByPlatNomor(String platNomor) {
-        String sql = "SELECT plat_nomor, merk, harga_sewa_per_hari, status, jenis, jumlah_pintu, jenis_transmisi "
+        String sql = "SELECT plat_nomor, merek, harga_sewa_per_hari, status, jenis, jumlah_pintu, jenis_transmisi "
                 + "FROM kendaraan WHERE plat_nomor = ?";
 
         try (
@@ -128,7 +128,7 @@ public class KendaraanRepository {
 
     private Kendaraan mapResultSetToKendaraan(ResultSet resultSet) throws SQLException {
         String platNomor = resultSet.getString("plat_nomor");
-        String merk = resultSet.getString("merk");
+        String merek = resultSet.getString("merek");
         int hargaSewaPerHari = resultSet.getInt("harga_sewa_per_hari");
         StatusKendaraan status = StatusKendaraan.valueOf(resultSet.getString("status"));
         String jenis = resultSet.getString("jenis");
@@ -137,10 +137,10 @@ public class KendaraanRepository {
 
         if ("Mobil".equalsIgnoreCase(jenis)) {
             int jumlahPintu = resultSet.getInt("jumlah_pintu");
-            kendaraan = new Mobil(platNomor, merk, hargaSewaPerHari, jumlahPintu);
+            kendaraan = new Mobil(platNomor, merek, hargaSewaPerHari, jumlahPintu);
         } else if ("Motor".equalsIgnoreCase(jenis)) {
             String jenisTransmisi = resultSet.getString("jenis_transmisi");
-            kendaraan = new Motor(platNomor, merk, hargaSewaPerHari, jenisTransmisi);
+            kendaraan = new Motor(platNomor, merek, hargaSewaPerHari, jenisTransmisi);
         } else {
             throw new SQLException("Jenis kendaraan tidak dikenali: " + jenis);
         }
