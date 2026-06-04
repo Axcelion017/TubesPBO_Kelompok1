@@ -1,15 +1,16 @@
 package tubespbo.repository;
 
-import tubespbo.domain.Role;
-import tubespbo.domain.User;
-import tubespbo.helper.DatabaseConnection;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import tubespbo.domain.Role;
+import tubespbo.domain.User;
+import tubespbo.helper.DatabaseConnection;
 
 // Repository ini khusus membaca akun login dari tabel users.
 // Validasi berhasil/gagal login tetap menjadi tanggung jawab AuthService.
@@ -48,7 +49,7 @@ public class UserRepository {
         return daftarUser;
     }
 
-    public User cariByUsername(String username) {
+    public Optional<User> cariByUsername(String username) {
         // Query memakai parameter (?) agar input username tidak digabung langsung ke SQL.
         String sql = "SELECT username, password, role FROM users WHERE username = ?";
 
@@ -71,15 +72,17 @@ public class UserRepository {
                     String password = resultSet.getString("password");
                     Role role = Role.valueOf(resultSet.getString("role"));
 
-                    return new User(usernameDb, password, role);
+                    // Jika user ditemukan, bungkus object User ke Optional agar AuthService tahu login bisa dilanjutkan
+                    User user = new User(usernameDb, password, role);
+                    return Optional.<User>of(user);
                 }
             }
         } catch (SQLException e) {
             System.out.println("[ERROR] Gagal mencari user dari database: " + e.getMessage());
         }
 
-        // Null menjadi tanda bahwa username tidak ditemukan; AuthService wajib mengeceknya.
-        return null;
+        // Jika username tidak ditemukan, AuthService akan menangani hasil kosong sebagai login gagal
+        return Optional.empty();
     }
 
     private String normalisasiTeks(String value) {

@@ -74,8 +74,12 @@ public class KendaraanRepository {
         ) {
             for (Kendaraan kendaraan : daftarKendaraan) {
                 isiParameterSimpan(statement, kendaraan);
-                statement.executeUpdate();
+                // Menambahkan parameter kendaraan saat ini ke antrian batch.
+                statement.addBatch();
             }
+
+            // Menjalankan seluruh query yang sudah dikumpulkan dalam satu batch.
+            statement.executeBatch();
         } catch (SQLException e) {
             System.out.println("[ERROR] Gagal menyimpan data kendaraan ke database: " + e.getMessage());
         }
