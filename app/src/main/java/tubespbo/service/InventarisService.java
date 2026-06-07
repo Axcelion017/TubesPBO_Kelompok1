@@ -1,5 +1,5 @@
 package tubespbo.service;
 
-public class InventarisService {
+public class InventarisService {    
     
 }
