@@ -8,7 +8,6 @@ import java.util.*;
 
 public class InventarisService {    
 
-
     // SOLID PRINCIPLE DIGUNAKAN: 
     // DIP : Menggunakan abstrak List<kendaraan>(Interface), bukan Arraylis<> (class yang konkrit)
     public void cetakDaftarKendaraan(List<Kendaraan> daftarKendaraan){
