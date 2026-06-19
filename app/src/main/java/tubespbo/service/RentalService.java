@@ -29,6 +29,7 @@ public class RentalService {
             throw new IllegalArgumentException("[ERROR] Transaksi dengan ID " + idTransaksi + " tidak ditemukan!");
         }
 
+        // Penyimpanan sebagai objek dari domain tertentu
         Transaksi transaksi = transaksiOptional.get();
         Pelanggan pelanggan = transaksi.getPelanggan();
         Kendaraan kendaraan = transaksi.getKendaraan();
