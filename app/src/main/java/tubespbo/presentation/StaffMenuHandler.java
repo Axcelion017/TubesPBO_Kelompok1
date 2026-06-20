@@ -205,10 +205,10 @@ public class StaffMenuHandler {
         if (ktp.equals("0")) {
             return;
         }
-
+        //Input plat nomor kendaraan
         System.out.print("Masukkan Plat Nomor Kendaraan : ");
         String plat = scanner.nextLine();
-
+        //Input durasi sewa kendaraan
         System.out.print("Rencana Durasi Sewa (Hari) : ");
         int durasi = Integer.parseInt(scanner.nextLine());
 
@@ -224,10 +224,14 @@ public class StaffMenuHandler {
             System.out.println("Durasi Sewa : " + durasi + " Hari");
             System.out.println("Estimasi Biaya : Rp " + trx.hitungBiayaDasar());
             System.out.println("----------------------------------");
-            System.out.println("[SUKSES] Transaksi berhasil dicatat. Status kendaraan berubah menjadi " + status.SEDANG_DISEWA);
+            System.out.println("[SUKSES] Transaksi berhasil dicatat. Status kendaraan berubah menjadi " + StatusKendaraan.SEDANG_DISEWA);
+             System.out.println("[INFO] Status kendaraan berubah menjadi " + StatusKendaraan.SEDANG_DISEWA);
+        }  catch (NumberFormatException e) {
+            System.out.println("[GAGAL] Durasi sewa harus berupa angka.");
         } catch (Exception e) {
             System.out.println("[GAGAL] " + e.getMessage());
         }
+        
         tekanEnter();
     }
 
