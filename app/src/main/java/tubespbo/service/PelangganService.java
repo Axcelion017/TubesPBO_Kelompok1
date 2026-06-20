@@ -1,7 +1,5 @@
 package tubespbo.service;
 
-import java.util.*;
-
 import tubespbo.domain.Pelanggan;
 
 public class PelangganService {

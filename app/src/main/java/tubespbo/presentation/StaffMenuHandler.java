@@ -144,10 +144,9 @@ public class StaffMenuHandler {
             Pelanggan p = pelanggan.get();
 
             System.out.println("\n[DATA DITEMUKAN]");
-            System.out.println("Nama Lengkap    : " + p.getNamaLengkap());    // Sesuai kode teman Anda
-            System.out.println("Nomor KTP       : " + p.getNomorKtp());      // Sesuai kode teman Anda
-            System.out.println("No Telepon      : " + p.getNomorTelepon());  // Sesuai kode teman Anda
-            
+            System.out.println("Nama Lengkap    : " + p.getNamaLengkap());   
+            System.out.println("Nomor KTP       : " + p.getNomorKtp());      
+            System.out.println("No Telepon      : " + p.getNomorTelepon());  
             //Tambahan Fitur Kelompok 1 (Membership & Diskon)
             System.out.println("Total Transaksi : " + p.getJumlahTransaksi() + " kali");
             System.out.println("Status Member   : " + p.getStatusMembership());
@@ -279,6 +278,20 @@ public class StaffMenuHandler {
 
 
 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
