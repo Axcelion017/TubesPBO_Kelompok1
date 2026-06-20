@@ -42,19 +42,120 @@ public class StaffMenuHandler {
 
 
 
-    public void menuCariPelanggan() {
-        System.out.println("\n=== MENU CARI DATA PELANGGAN ===");
-        System.out.print("Masukkan Nomor KTP Pelanggan: ");
-        String inputKtp = input.nextLine().trim();
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    private void menuCariPelanggan() {
+        System.out.println("\n========================================");
+        System.out.println("MENU PENCARIAN PELANGGAN");
+        System.out.println("========================================");
 
-        // Memanggil service yang menghasilkan Optional
-        Optional<Pelanggan> hasilCari = pelangganService.cariByNomorKtp(inputKtp);
+        System.out.print("Masukkan Nomor KTP : ");
+        String ktp =/*  */.nextLine();
 
-        // Memeriksa isi Optional sesuai standar Java modern
-        if (hasilCari.isPresent()) {
-            cetakDetailPelanggan(hasilCari.get()); // Ambil objek Pelanggan di dalamnya
-        } else {
-            System.out.println("[INFO] Data pelanggan dengan KTP tersebut tidak ditemukan.");
+        if (ktp.equals("0")) {
+            return;
+        }
+
+        // Service mengembalikan Optional
+        Optional<Pelanggan> pelanggan = pelangganService.cariByNomorKtp(ktp);
+
+        // Mengecek apakah data ditemukan
+        if (pelanggan.isPresent()) {
+            // Mengambil object Pelanggan dari Optional
+            Pelanggan p = pelanggan.get();
+
+            System.out.println("\n[DATA DITEMUKAN]");
+            System.out.println("Nama Lengkap    : " + p.getNamaLengkap());    // Sesuai kode teman Anda
+            System.out.println("Nomor KTP       : " + p.getNomorKtp());      // Sesuai kode teman Anda
+            System.out.println("No Telepon      : " + p.getNomorTelepon());  // Sesuai kode teman Anda
+            
+            //Tambahan Fitur Kelompok 1 (Membership & Diskon)
+            System.out.println("Total Transaksi : " + p.getJumlahTransaksi() + " kali");
+            System.out.println("Status Member   : " + p.getStatusMembership());
+            System.out.println("Diskon Aktif    : " + (p.getPersentaseDiskon() * 100) + "%");
+            System.out.println("========================================");
+        } 
+        else {
+            System.out.println("[GAGAL] Data pelanggan tidak ditemukan.");
         }
 
         tekanEnter();
@@ -178,116 +279,20 @@ public class StaffMenuHandler {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+       
     private void cetakDetailPelanggan(Pelanggan pelanggan) {
         System.out.println("\n------------------------------------------------");
         System.out.println("           DETAIL DATA PELANGGAN                ");

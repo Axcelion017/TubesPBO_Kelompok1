@@ -3,7 +3,6 @@ package tubespbo.service;
 import java.util.*;
 
 import tubespbo.domain.Pelanggan;
-import tubespbo.repository.PelangganRepository;
 
 public class PelangganService {
 
@@ -37,7 +36,6 @@ public class PelangganService {
 
 
 
-    
     public Optional<Pelanggan> cariByNomorKtp(String nomorKtp) {
         List<Pelanggan> daftarPelanggan = pelangganRepository.getAllPelanggan();
         for (Pelanggan pelanggan : daftarPelanggan) {
