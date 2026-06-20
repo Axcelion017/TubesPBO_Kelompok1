@@ -42,6 +42,7 @@ public class StaffMenuHandler {
             
             // Membaca pilihan menu dari user
             pilihan = scanner.nextInt();
+            scanner.nextInt();
             
 
             // Menentukan aksi berdasarkan menu yang dipilih
