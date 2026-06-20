@@ -161,10 +161,8 @@ public class StaffMenuHandler {
 
 
 
-    /**
-     * Menampilkan daftar kendaraan yang
-     * berstatus TERSEDIA.
-     */
+
+
     private void menuCekKendaraanTersedia() {
 
         System.out.println("\n======================================================");
@@ -192,9 +190,8 @@ public class StaffMenuHandler {
         tekanEnter();
     }
 
-    /**
-     * Menu proses peminjaman kendaraan.
-     */
+    
+
     private void menuPeminjaman() {
         StatusKendaraan status;
 
@@ -234,9 +231,8 @@ public class StaffMenuHandler {
         tekanEnter();
     }
 
-    /**
-     * Menu pengembalian kendaraan.
-     */
+
+
     private void menuPengembalian() {
         StatusKendaraan status;
         
@@ -320,10 +316,11 @@ public class StaffMenuHandler {
 
 
 
-    /**
-     * Utility method untuk memberi jeda
-     * sebelum kembali ke dashboard.
-     */
+    
+
+
+
+
     private void tekanEnter() {
 
         System.out.println(
