@@ -7,8 +7,37 @@ import tubespbo.repository.PelangganRepository;
 
 public class PelangganService {
 
-    private PelangganRepository pelangganRepository;
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+    
+
+
+
+
+    
     public Optional<Pelanggan> cariByNomorKtp(String nomorKtp) {
         List<Pelanggan> daftarPelanggan = pelangganRepository.getAllPelanggan();
         for (Pelanggan pelanggan : daftarPelanggan) {
