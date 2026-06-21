@@ -379,4 +379,123 @@ public class RentalService {
 
 
 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    public Transaksi buatPeminjamanBaru(String nomorKtp, String platNomor, int durasiSewaHari) {
+        Optional<Kendaraan> kendaraanOpt = inventarisService.cariByPlatNomor(platNomor);
+        if (kendaraanOpt.isEmpty()) {
+            System.out.println("[ERROR] Kendaraan tidak ditemukan!");
+            return null;
+        }
+        Kendaraan kendaraan = kendaraanOpt.get();
+
+        Optional<Pelanggan> pelangganOpt = pelangganService.cariByNomorKtp(nomorKtp);
+        if (pelangganOpt.isEmpty()) {
+            System.out.println("[ERROR] Pelanggan belum terdaftar!");
+            return null;
+        }
+        Pelanggan pelanggan = pelangganOpt.get();
+
+        if (kendaraan.getStatus() != StatusKendaraan.TERSEDIA) {
+            System.out.println("[ERROR] Kendaraan tidak tersedia!");
+            return null;
+        }
+        kendaraan.setStatus(StatusKendaraan.SEDANG_DISEWA);
+
+        String idTransaksi = "TRX-" + System.currentTimeMillis();
+        Transaksi transaksiBaru = new Transaksi(idTransaksi, pelanggan, kendaraan, durasiSewaHari);
+
+        transaksiRepository.simpanSemua(List.of(transaksiBaru));
+        return transaksiBaru;
+    }
 }
