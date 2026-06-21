@@ -5,6 +5,8 @@ import java.util.Scanner;
 import tubespbo.domain.Mobil;
 import tubespbo.domain.Motor;
 import tubespbo.domain.User;
+import tubespbo.exception.KendaraanSedangDisewaException;
+import tubespbo.exception.PlatNomorDuplikatException;
 import tubespbo.service.InventarisService;
 
 public class AdminMenuHandler {
@@ -16,7 +18,7 @@ public class AdminMenuHandler {
         this.inventarisService = inventarisService;
     }
 
-    public void tampilkanDashboardAdmin(User user) {
+    public void tampilkanDashboardAdmin(String username) {
         int pilihan;
 
         do {
@@ -25,7 +27,7 @@ public class AdminMenuHandler {
             System.out.println("\n========================================");
             System.out.println("DASHBOARD - ADMIN");
             System.out.println("========================================");
-            System.out.println("Selamat Datang, " + user.getUsername() + "!");
+            System.out.println("Selamat Datang, " + username + "!");
             System.out.println("Silahkan pilih menu:");
             System.out.println("1. Tambah Kendaraan Baru");
             System.out.println("2. Lihat Semua Kendaraan");
@@ -35,7 +37,8 @@ public class AdminMenuHandler {
 
             try {
 
-                // Membaca pilihan user, membaca satu baris input teks dari pengguna dan mengubahnya (mengonversi) menjadi nilai angka bilangan bulat
+                // Membaca pilihan user, membaca satu baris input teks dari pengguna dan
+                // mengubahnya (mengonversi) menjadi nilai angka bilangan bulat
                 pilihan = Integer.parseInt(scanner.nextLine());
 
                 // Menentukan menu yang dipilih
@@ -84,55 +87,55 @@ public class AdminMenuHandler {
 
             // Jika memilih Mobil
             case "1":
+                try {
+                    System.out.print("Masukkan Plat Nomor : ");
+                    String platMobil = scanner.nextLine();
 
-                // Input plat nomor kendaraan
-                System.out.print("Masukkan Plat Nomor : ");
-                String platMobil = scanner.nextLine();
+                    System.out.print("Masukkan Harga Sewa/Hari : ");
+                    int hargaMobil = Integer.parseInt(scanner.nextLine());
 
-                // Input harga sewa per hari
-                System.out.print("Masukkan Harga Sewa/Hari : ");
-                int hargaMobil = Integer.parseInt(scanner.nextLine());
+                    System.out.print("Masukkan Merk Kendaraan : ");
+                    String merkMobil = scanner.nextLine();
 
-                // Input merk kendaraan
-                System.out.print("Masukkan Merk Kendaraan : ");
-                String merkMobil = scanner.nextLine();
+                    System.out.print("Masukkan Jumlah Pintu : ");
+                    int jumlahPintu = Integer.parseInt(scanner.nextLine());
 
-                // Input jumlah pintu mobil
-                System.out.print("Masukkan Jumlah Pintu : ");
-                int jumlahPintu = Integer.parseInt(scanner.nextLine());
-
-                // Memanggil service untuk menambah mobil
-                Mobil mobil = inventarisService.tambahMobil(platMobil, merkMobil, hargaMobil, jumlahPintu); // Fungsi belum ada
-
-                // Jika berhasil ditambahkan
-                if (mobil != null) {
-                    System.out.println("\n[SUKSES] Mobil dengan plat " + mobil.getPlatNomor() + " berhasil ditambahkan ke dalam sistem dengan status TERSEDIA.");
-                } else {
-                    System.out.println("[GAGAL] Plat nomor sudah terdaftar.");
+                    Mobil mobil = inventarisService.tambahMobil(platMobil, merkMobil, hargaMobil, jumlahPintu);
+                    System.out.println("\n[SUKSES] Mobil dengan plat " + mobil.getPlatNomor()
+                            + " berhasil ditambahkan ke dalam sistem dengan status TERSEDIA.");
+                } catch (PlatNomorDuplikatException e) {
+                    System.out.println("[GAGAL] " + e.getMessage());
+                } catch (IllegalArgumentException e) {
+                    System.out.println("[GAGAL] Input tidak valid: " + e.getMessage());
+                } catch (Exception e) {
+                    System.out.println("[GAGAL] Terjadi kesalahan: " + e.getMessage());
                 }
-
                 tekanEnter();
                 break;
 
             case "2":
+                try {
+                    System.out.print("Masukkan Plat Nomor : ");
+                    String platMotor = scanner.nextLine();
 
-                System.out.print("Masukkan Plat Nomor : ");
-                String platMotor = scanner.nextLine();
+                    System.out.print("Masukkan Harga Sewa/Hari : ");
+                    int hargaMotor = Integer.parseInt(scanner.nextLine());
 
-                System.out.print("Masukkan Harga Sewa/Hari : ");
-                int hargaMotor = Integer.parseInt(scanner.nextLine());
+                    System.out.print("Masukkan Merk Kendaraan : ");
+                    String merkMotor = scanner.nextLine();
 
-                System.out.print("Masukkan Merk Kendaraan : ");
-                String merkMotor = scanner.nextLine();
+                    System.out.print("Masukkan Jenis Transmisi (Manual/Matic) : ");
+                    String transmisi = scanner.nextLine();
 
-                System.out.print("Masukkan Jenis Transmisi (Manual/Matic) : ");
-                String transmisi = scanner.nextLine();
-
-                Motor motor = inventarisService.tambahMotor(platMotor, merkMotor, hargaMotor, transmisi); // Fungsi belum ada
-
-                if (motor != null) {System.out.println("\n[SUKSES] Motor dengan plat " + motor.getPlatNomor() + " berhasil ditambahkan ke dalam sistem dengan status TERSEDIA.");
-                } else {
-                    System.out.println("[GAGAL] Plat nomor sudah terdaftar.");
+                    Motor motor = inventarisService.tambahMotor(platMotor, merkMotor, hargaMotor, transmisi);
+                    System.out.println("\n[SUKSES] Motor dengan plat " + motor.getPlatNomor()
+                            + " berhasil ditambahkan ke dalam sistem dengan status TERSEDIA.");
+                } catch (PlatNomorDuplikatException e) {
+                    System.out.println("[GAGAL] " + e.getMessage());
+                } catch (IllegalArgumentException e) {
+                    System.out.println("[GAGAL] Input tidak valid: " + e.getMessage());
+                } catch (Exception e) {
+                    System.out.println("[GAGAL] Terjadi kesalahan: " + e.getMessage());
                 }
 
                 tekanEnter();
@@ -154,7 +157,7 @@ public class AdminMenuHandler {
         System.out.println("=================================================================================");
 
         // Menampilkan seluruh data kendaraan
-        inventarisService.cetakDaftarKendaraan(); // Fungsi belum ada
+        inventarisService.cetakDaftarKendaraan();
 
         tekanEnter();
     }
@@ -176,12 +179,17 @@ public class AdminMenuHandler {
         }
 
         // Memanggil service untuk menghapus kendaraan
-        boolean berhasil = inventarisService.hapusKendaraan(platNomor); // Fungsi belum ada
-
-        if (berhasil) {
-            System.out.println("[SUKSES] Kendaraan " + platNomor + " berhasil dihapus dari sistem.");
-        } else {
-            System.out.println("[GAGAL] Kendaraan tidak dapat dihapus.");
+        try {
+            boolean berhasil = inventarisService.hapusKendaraan(platNomor);
+            if (berhasil) {
+                System.out.println("[SUKSES] Kendaraan " + platNomor + " berhasil dihapus dari sistem.");
+            } else {
+                System.out.println("[GAGAL] Kendaraan " + platNomor + " tidak ditemukan.");
+            }
+        } catch (tubespbo.exception.KendaraanSedangDisewaException e) {
+            System.out.println("[GAGAL] " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("[GAGAL] Terjadi kesalahan: " + e.getMessage());
         }
 
         tekanEnter();
