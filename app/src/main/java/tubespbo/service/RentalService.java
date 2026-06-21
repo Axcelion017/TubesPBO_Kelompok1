@@ -62,6 +62,74 @@ public class RentalService {
 
         return totalBiayaAkhir;
     }
+
+    public Transaksi buatPeminjamanBaru(String nomorKtp, String platNomor, int durasiSewaHari) {
+
+    //Memalidasi nomor KTP tidak boleh kosong
+    if (nomorKtp == null || nomorKtp.trim().isEmpty()) {
+        throw new IllegalArgumentException("[ERROR] Nomor KTP pelanggan tidak boleh kosong!");
+    }
+
+    //Memalidasi plat nomor tidak boleh kosong
+    if (platNomor == null || platNomor.trim().isEmpty()) {
+        throw new IllegalArgumentException("[ERROR] Plat nomor kendaraan tidak boleh kosong!");
+    }
+
+    //Memvalidasi durasi sewa harus lebih dari 0 hari
+    if (durasiSewaHari <= 0) {
+        throw new IllegalArgumentException("[ERROR] Durasi sewa harus lebih dari 0 hari!");
+    }
+
+    // Membersihkan input agar tidak ada spasi berlebih
+    String nomorKtpBersih = nomorKtp.trim();
+    String platNomorBersih = platNomor.trim().toUpperCase();
+
+    //Mencari pelanggan berdasarkan nomor KTP
+    Optional<Pelanggan> pelangganOpt = pelangganService.cariByNomorKtp(nomorKtpBersih);
+
+    if (pelangganOpt.isEmpty()) {
+        throw new IllegalArgumentException("[ERROR] Pelanggan belum terdaftar!");
+    }
+
+    Pelanggan pelanggan = pelangganOpt.get();
+
+    //Mencari kendaraan berdasarkan plat nomor
+    Optional<Kendaraan> kendaraanOpt = inventarisService.cariByPlatNomor(platNomorBersih);
+
+    if (kendaraanOpt.isEmpty()) {
+        throw new IllegalArgumentException("[ERROR] Kendaraan tidak ditemukan!");
+    }
+
+    Kendaraan kendaraan = kendaraanOpt.get();
+
+    //MemVvalidasi kendaraan hanya bisa dipinjam jika statusnya TERSEDIA
+    if (kendaraan.getStatus() != StatusKendaraan.TERSEDIA) {
+        throw new IllegalArgumentException("[ERROR] Kendaraan sedang disewa dan tidak tersedia!");
+    }
+
+    //Membuat ID transaksi otomatis
+    String idTransaksi = "TRX-" + System.currentTimeMillis();
+
+    //Membuat objek transaksi baru
+    Transaksi transaksiBaru = new Transaksi(
+            idTransaksi,
+            pelanggan,
+            kendaraan,
+            durasiSewaHari
+    );
+
+    //Update status kendaraan menjadi SEDANG_DISEWA
+    kendaraan.setStatus(StatusKendaraan.SEDANG_DISEWA);
+
+    //Simpan transaksi baru
+    transaksiRepository.simpanSemua(List.of(transaksiBaru));
+
+    //Mengembalikan transaksi baru agar bisa dipakai di StaffMenuHandler
+    return transaksiBaru;
+}
+
+
+
     
     public double hitungDendaKeterlambatan(Kendaraan kendaraan, int hariTerlambat){
         //Memvalidasi jika ada data kendaraan yang kosong 
