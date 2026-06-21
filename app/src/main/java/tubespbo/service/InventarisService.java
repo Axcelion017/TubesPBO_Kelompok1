@@ -82,7 +82,7 @@ public class InventarisService {
         }
 
         if (kendaraan.get().getStatus() == StatusKendaraan.SEDANG_DISEWA) {
-            throw new KendaraanSedangDisewaException();
+            throw new KendaraanSedangDisewaException("Kendaraan " + platNomor + " sedang disewa, tidak bisa dihapus.");
         }
 
         return kendaraanRepository.hapusByPlatNomor(kendaraan.get().getPlatNomor());
