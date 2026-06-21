@@ -23,10 +23,16 @@ public class Main {
         // 3. MASUK KE DASHBOARD (Nantinya dibuatkan DashboardView terpisah)
         System.out.println("\n--- Masuk ke Dashboard " + loggedInUser.getRole() + " ---");
 
-        // switch (loggedInUser.getRole()) {
-        // case ADMIN: showMenuAdmin(); break;
-        // case STAFF: showMenuStaff(); break;
-        // case OWNER: showMenuOwner(); break;
-        // }
+        switch (loggedInUser.getRole()) {
+            case ADMIN: 
+                showMenuAdmin(); 
+                break;
+            case STAFF: 
+                showMenuStaff(); 
+                break;
+            case OWNER: 
+                showMenuOwner(); 
+                break;
+        }
     }
 }
