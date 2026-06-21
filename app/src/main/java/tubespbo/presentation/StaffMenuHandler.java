@@ -1,5 +1,7 @@
 package tubespbo.presentation;
 
+import tubespbo.domain.Kendaraan;
+import tubespbo.domain.Transaksi;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -12,15 +14,375 @@ import tubespbo.service.PelangganService;
 import tubespbo.service.RentalService;
 
 public class StaffMenuHandler {
-    private Scanner scanner;
-    private PelangganService pelangganService;
-    private RentalService rentalService;
     
-    public StaffMenuHandler(Scanner scanner, PelangganService pelangganService, RentalService rentalService) {
-        this.scanner = scanner;
-        this.pelangganService = pelangganService;
-        this.rentalService = rentalService;
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    private void cetakStrukPeminjamanSementara(Transaksi transaksi) {
+        if (transaksi == null) {
+            System.out.println("[ERROR] Gagal mencetak struk karena transaksi tidak valid.");
+            return;
+        }
+        // Ambil data kendaraan untuk mendapatkan harga sewa per hari
+        Kendaraan kendaraan = kendaraanRepository.getByPlatNomor(transaksi.getPlatNomor());
+        double hargaPerHari = (kendaraan != null) ? kendaraan.getHargaSewaPerHari() : 0;
+        double biayaDasarTotal = hargaPerHari * transaksi.getDurasiSewaHari();
+
+        System.out.println("\n========================================");
+        System.out.println("       STRUK PEMINJAMAN SEMENTARA       ");
+        System.out.println("========================================");
+        System.out.println("ID Transaksi    : " + transaksi.getIdTransaksi());
+        System.out.println("No. KTP Penyewa : " + transaksi.getNomorKtp());
+        System.out.println("Plat Nomor      : " + transaksi.getPlatNomor());
+        System.out.println("Durasi Sewa     : " + transaksi.getDurasiSewaHari() + " Hari");
+        System.out.println("----------------------------------------");
+        System.out.println("Harga / Hari    : Rp " + hargaPerHari);
+        System.out.println("TOTAL BIAYA DASAR: Rp " + biayaDasarTotal);
+        System.out.println("========================================");
+        System.out.println("* Harap simpan bukti ini saat pengembalian.");
+        System.out.println("========================================");
     }
+
+    
+    
+    
+    
+    
     
      public void tampilkanDashboardStaff(String username) {
         int pilihan;
