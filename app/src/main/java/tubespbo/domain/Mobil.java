@@ -30,7 +30,7 @@ public class Mobil extends Kendaraan {
 
     @Override
     public String getInfoTambahan() {
-        return "Jumlah Pintu: " + jumlahPintu;
+        return jumlahPintu + " seater";
     }
 
     public int getJumlahPintu() {
