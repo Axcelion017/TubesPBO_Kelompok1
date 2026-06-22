@@ -96,23 +96,25 @@ public class InventarisService {
             return;
         }
 
-        System.out.println("====================================================================================");
-        System.out.println("                           DAFTAR SELURUH KENDARAAN");
-        System.out.println("====================================================================================");
-        System.out.printf("| %-12s | %-6s | %-25s | %-15s | %-10s |%n",
-                "Plat Nomor", "Jenis", "Atribut Khusus", "Harga Sewa", "Status");
-        System.out.println("------------------------------------------------------------------------------------");
+        System.out.println("===================================================================================");
+        System.out.println(" DAFTAR SELURUH KENDARAAN");
+        System.out.println("===================================================================================");
+        System.out.printf("| %-10s | %-5s | %-10s | %-10s | %-20s | %-13s |\n",
+                "Plat Nomor", "Jenis", "Harga/Hari", "Merek", "Info Tambahan", "Status");
+        System.out.println("-----------------------------------------------------------------------------------");
 
         for (Kendaraan kendaraan : daftarKendaraan) {
-            System.out.printf("| %-12s | %-6s | %-25s | %-15s | %-10s |%n",
+            String status = kendaraan.getStatus() == StatusKendaraan.TERSEDIA ? "TERSEDIA" : "SEDANG DISEWA";
+            System.out.printf("| %-10s | %-5s | %-10s | %-10s | %-20s | %-13s |\n",
                     kendaraan.getPlatNomor(),
                     kendaraan.getJenis(),
-                    kendaraan.getInfoTambahan(),
                     formatRupiah(kendaraan.getHargaSewaPerHari()),
-                    formatStatus(kendaraan.getStatus()));
+                    kendaraan.getMerek(),
+                    kendaraan.getInfoTambahan(),
+                    status);
         }
 
-        System.out.println("------------------------------------------------------------------------------------");
+        System.out.println("-----------------------------------------------------------------------------------");
     }
 
     private String validasiDanNormalisasiDataDasar(

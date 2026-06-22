@@ -30,7 +30,7 @@ public class Motor extends Kendaraan {
 
     @Override
     public String getInfoTambahan() {
-        return "Transmisi: " + jenisTransmisi;
+        return jenisTransmisi;
     }
 
     public String getJenisTransmisi() {
